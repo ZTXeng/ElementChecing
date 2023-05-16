@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Assembly>CheckingElement.Business.dll</Assembly>
+    <ClientId>cbcd50e1-79e5-4aed-93a3-a66bc391b714</ClientId>
+    <FullClassName>CheckingElement.Business.Command.BasicCheckCommand</FullClassName>
+    <Text>BasicCheckCommand</Text>
+    <Description>""</Description>
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Command">
+    <Assembly>CheckingElement.Business.dll</Assembly>
+    <ClientId>defdf447-e1c9-4c1e-8352-f2f113ceb26b</ClientId>
+    <FullClassName>CheckingElement.Business.Command.ElementCheckCommand</FullClassName>
+    <Text>ElementCheckCommand</Text>
+    <Description>""</Description>
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>Application</Name>
+    <Assembly>CheckingElement.App.dll</Assembly>
+    <ClientId>de9e01b2-d266-4e56-873d-185c1c568cd6</ClientId>
+    <FullClassName>CheckingElement.App.Application</FullClassName>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>

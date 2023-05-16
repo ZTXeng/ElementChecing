@@ -1,0 +1,85 @@
+﻿<Window x:Class="CheckingElement.Business.View.CheckingElementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CheckingElement.Business.View"
+             xmlns:conv="clr-namespace:CheckingElement.Business.Converter"
+             xmlns:model="clr-namespace:CheckingElement.Business.Model"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+            Width="300" Height="500" Title="模型审查" WindowStartupLocation="CenterScreen" Name="window" WindowStyle="SingleBorderWindow">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Loaded}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Close">
+            <i:InvokeCommandAction Command="{Binding Close}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+        <conv:ProfessionToDescriptionConverter x:Key="desConverter"/>
+        <ObjectDataProvider x:Key="elements" ObjectType="{x:Type model:CheckingElementModel}"/>
+        <HierarchicalDataTemplate DataType="RevitCategoryElement" ItemsSource="{Binding Model.Elements,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <TextBlock Text="{Binding Name}"/>
+        </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate DataType="RevitElement" ItemsSource="{Binding Elements,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <TextBlock Text="{Binding Name}"/>
+        </HierarchicalDataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <ComboBox ItemsSource="{Binding Model.Professions,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Model.SelectedProfession}"  HorizontalAlignment="Center" Width="200" Height="40" Margin="0,10,0,0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding ProfessionChanged}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Padding="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding Converter={StaticResource desConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        <!--写了一半-->
+        <Grid Grid.Row="1" Margin="1">
+            <TreeView HorizontalAlignment="Stretch" Margin="2" VerticalAlignment="Stretch" ItemsSource="{Binding Model.Elements,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Elements,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" DataType="{x:Type model:RevitCategoryElement}">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{Binding Name}" HorizontalAlignment="Left"/>
+                            <CheckBox Grid.Column="1" Width="20" Height="20" IsChecked="{Binding IsChecked}" HorizontalAlignment="Right">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.CheckElement,ElementName=window}" CommandParameter="{Binding Id}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Unchecked">
+                                        <i:InvokeCommandAction Command="{Binding DataContext.CheckElement,ElementName=window}" CommandParameter="{Binding Id}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </CheckBox>
+                        </Grid>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Button Width="50" Height="22" Content="导出" Command="{Binding Export}" HorizontalAlignment="Left" Margin="4"/>
+            <Button Width="50" Height="22" Content="审查" Command="{Binding Check}" HorizontalAlignment="Right" Margin="4"/>
+        </Grid>
+
+    </Grid>
+</Window>
